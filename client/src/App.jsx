@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { validateExpense } from "./validate";
 import { getDaysUntil, getDdayLabel, isThisMonth } from "./dday";
+// 배포 환경에서는 VITE_API_URL, 로컬에서는 localhost:3001 사용
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+
 
 // ============================================================
 // React 화면 전환 - 9개 화면 전체 연결 버전
@@ -1080,6 +1083,7 @@ const styles = {
     fontSize: 15,
     boxSizing: "border-box",
     background: "#fff",
+    color: "#2d2a24",
   },
   depositWord: {
     fontSize: 13,
@@ -1667,7 +1671,7 @@ function ExpenseSetup({ go }) {
   // ── 서버에서 지출 목록을 불러오는 함수 ──
   const loadExpenses = async () => {
     try {
-      const res = await fetch("http://localhost:3001/api/expenses");
+      const res = await fetch(`${API_URL}/api/expenses`);
       const data = await res.json(); // 응답을 객체로 변환
       setExpenses(data); // 목록 상태에 넣기
     } catch (err) {
@@ -1685,7 +1689,7 @@ function ExpenseSetup({ go }) {
     if (!window.confirm("이 항목을 삭제할까요?")) return;
 
     try {
-      const res = await fetch(`http://localhost:3001/api/expenses/${id}`, {
+        const res = await fetch(`${API_URL}/api/expenses/${id}`, {
         method: "DELETE",
       });
 
@@ -1738,8 +1742,8 @@ function ExpenseSetup({ go }) {
     // 수정 모드면 PUT, 등록 모드면 POST
     const isEdit = editingId !== null;
     const url = isEdit
-      ? `http://localhost:3001/api/expenses/${editingId}`
-      : "http://localhost:3001/api/expenses";
+      ? `${API_URL}/api/expenses/${editingId}`
+      : `${API_URL}/api/expenses`;
     const method = isEdit ? "PUT" : "POST";
 
     try {
