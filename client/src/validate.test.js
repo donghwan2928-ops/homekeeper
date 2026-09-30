@@ -21,4 +21,19 @@ describe("지출 항목 입력 검증", () => {
     const result = validateExpense({ name: "관리비", amount: 120000, due_day: 25 });
     expect(Object.keys(result).length).toBe(0);
   });
+
+  it("금액이 숫자가 아니면 에러를 반환한다", () => {
+    const result = validateExpense({ name: "관리비", amount: "abc", due_day: 25 });
+    expect(result.amount).toBe("금액은 0원보다 커야 해요.");
+  });
+
+  it("금액이 소수면 에러를 반환한다", () => {
+    const result = validateExpense({ name: "관리비", amount: 1.5, due_day: 25 });
+    expect(result.amount).toBe("금액은 0원보다 커야 해요.");
+  });
+
+  it("납부일이 소수면 에러를 반환한다", () => {
+    const result = validateExpense({ name: "관리비", amount: 1000, due_day: 2.5 });
+    expect(result.due_day).toBe("납부일은 1일부터 31일 사이여야 해요.");
+  });
 });

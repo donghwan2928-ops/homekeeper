@@ -11,12 +11,12 @@ export function validateExpense({ name, amount, due_day }) {
   }
 
   // 금액: 0보다 커야 함
-  if (!amount || amount <= 0) {
+  if (!Number.isInteger(amount) || amount <= 0) {
     errors.amount = "금액은 0원보다 커야 해요.";
   }
 
-  // 납부일: 1~31 사이
-  if (!due_day || due_day < 1 || due_day > 31) {
+  // 납부일: 1~31 사이의 정수여야 함
+  if (!Number.isInteger(due_day) || due_day < 1 || due_day > 31) {
     errors.due_day = "납부일은 1일부터 31일 사이여야 해요.";
   }
 

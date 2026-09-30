@@ -26,10 +26,10 @@ function validateExpense({ name, amount, due_day }) {
   if (!name || String(name).trim() === "") {
     errors.name = "항목 이름을 입력해주세요.";
   }
-  if (!amount || amount <= 0) {
+  if (!Number.isInteger(amount) || amount <= 0) {
     errors.amount = "금액은 0원보다 커야 해요.";
   }
-  if (!due_day || due_day < 1 || due_day > 31) {
+  if (!Number.isInteger(due_day) || due_day < 1 || due_day > 31) {
     errors.due_day = "납부일은 1일부터 31일 사이여야 해요.";
   }
   return errors;
