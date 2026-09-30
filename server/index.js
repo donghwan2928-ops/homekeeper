@@ -39,16 +39,6 @@ function validateExpense({ name, amount, due_day }) {
   res.send("홈키퍼 서버가 살아있어요! 🏠");
 });
 
-// 5. Supabase 연결 테스트
-//    localhost:3001/test 로 접속하면 expenses 테이블을 조회해본다
-  app.get("/test", async (req, res) => {
-  const { data, error } = await supabase.from("expenses").select("*");
-  if (error) {
-    res.send("연결 실패: " + error.message);
-  } else {
-    res.send({ 연결: "성공!", 데이터개수: data.length, 데이터: data });
-  }
-});
 // ── POST /api/expenses : 지출 항목 하나를 받아 DB에 저장 ──
   app.post("/api/expenses", async (req, res) => {
   // 1. 프론트가 보낸 데이터를 꺼낸다 (body에서)
